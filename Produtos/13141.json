@@ -1,0 +1,81 @@
+{
+    "SerialNumber": "1000004249895",
+    "ProductCode": "13141",
+    "ProductName": "INV-30403",
+    "Rastreamento": "true",
+    "BS": "Base BS-49",
+    "CNV": "Chicote CNV-96",
+    "TRAFO": "",
+    "EtapasDeTeste": [
+        "TestConfig",
+        "SetupInicial",
+        "StartRastreamento",
+        "Start",
+        "SetTemperaturaInicial",
+        "Energizacao220",
+        "TesteLedVerde",
+        "SaidasEnergizacaoSetRelatorio",
+        "SaidasEnergizacao1",
+        "TesteRL",
+        "SaidasEnergizacao2",
+        "Desenergizacao",
+        "TransferenciaDeFalhas",
+        "EndRastreamento",
+        "FinalizaTeste"
+    ],
+    "Relatorio": {
+        "Geral": {
+            "LEDVerde": null,
+            "LEDAmarelo": null,
+            "SEMPRE_ACIONADA_1_ac1": null,
+            "SEMPRE_ACIONADA_1_ac2": null,
+            "SEMPRE_ACIONADA_2_ac1": null,
+            "SEMPRE_ACIONADA_2_ac2": null,
+            "SaidaAC2": null
+        },
+        "Saida110": {
+            "Init": null,
+            "Stop": null,
+            "Min": null,
+            "Medio": null,
+            "Max": null
+        },
+        "Saida220": {
+            "Init": null,
+            "Stop": null,
+            "Min": null,
+            "Medio": null,
+            "Max": null
+        }
+    },
+    "SaidasEnergizacao1": {
+        "ac1": "true",
+        "ac2": "false"
+    },
+    "SaidasEnergizacao2": {
+        "ac1": "false",
+        "ac2": "true"
+    },
+    "SaidasRl": {
+        "S1": "ac2"
+    },
+    "Imagens": {
+        "Base": "Imagens/BS-49.png",
+        "Padrao": "Imagens/padrao.png",
+        "Atencao": "Imagens/atencao.gif",
+        "LEDVerde": "Imagens/led-verde.png",
+        "LEDAmarelo": "Imagens/led-amarelo.png",
+        "LEDVerdeAmarelo": "Imagens/led-verde-amarelo.gif",
+        "Agulhas": "Imagens/agulhas-curtas.jpg"
+    },
+    "Setup": {
+        "SetupRl": "RL1,RL11,RL12",
+        "Vazio": "",
+        "Alimentacao110": "110",
+        "Alimentacao220": "220",
+        "NTC": {
+            "TempInical": 0,
+            "TempAcionaRL": 40
+        }
+    }
+}

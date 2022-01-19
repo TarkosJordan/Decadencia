@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/siimple@3.3.1/dist/siimple.min.css">
+
+	<script type="text/javascript" src="Main.js"></script>
+	<script type="text/javascript" src="Bibliotecas/Observers.js"></script>
+	<script type="text/javascript" src="/JsAppRunner/DAQ.js"></script>
+	<script type="text/javascript" src="Bibliotecas/BarcodeScanner.js"></script>
+	<script type="text/javascript" src="Bibliotecas/Rastreamento.js"></script>
+	<script type="text/javascript" src="Bibliotecas/Utils.js"></script>
+	<script type="text/javascript" src="Bibliotecas/Validations.js"></script>
+	<script type="text/javascript" src="Bibliotecas/UI.js"></script>
+	<script type="text/javascript" src="Bibliotecas/Teste.js"></script>
+	<script type="text/javascript" src="Bibliotecas/Serial.js"></script>
+	<script type="text/javascript" src="Bibliotecas/CRC8.js"></script>
+	<link rel="stylesheet" href="Bibliotecas/Styles/styles.css">
+
+</head>
+
+</head>
+
+<body id="body" onload="main = new Main()">
+	<header>
+		<div class="divLogo">
+			<div class="logo"> </div>
+		</div>
+	</header>
+
+	<main>
+		<div class="siimple-modal siimple-modal--small" id="modal" style="display:none;">
+			<div class="siimple-modal-content">
+				<div class="siimple-modal-header">
+					<div id="modalTitle" class="siimple-modal-header-title">Inova Sistemas Eletrônicos</div>
+				</div>
+				<div class="siimple-modal-body">
+					<img id="modalImg" style="max-width: 250px;left: 25%; max-height: 250px;position: relative;"
+						class="siimple-grid-col siimple-grid-col--12" src="Imagens/padrao.png" style>
+				</div>
+				<textarea id="txtModal" style="min-height: 1px;" class="siimple-textarea siimple-textarea--fluid">
+
+					</textarea>
+				<div class="siimple-modal-footer">
+					<button style="position: relative;right: -35%;height: 35px; width: 150px;" id="btnOkModal"
+						class="siimple-btn siimple-btn--navy"> Prosseguir </button>
+				</div>
+			</div>
+		</div>
+
+		<div class="myProgress" id="myProgress">
+			<div class="myBar" id="myBar"></div>
+		</div>
+
+
+		<nav>
+			<button id="btnRestart" class="siimple-btn siimple-btn--yellow"> Restart </button>
+			<button id="btnAux3" class="siimple-btn siimple-btn"></button>
+			<button id="btnAux2" class="siimple-btn siimple-btn"></button>
+			<button id="btnAux1" class="siimple-btn siimple-btn"> </button>
+			<button id="btnSim" class="siimple-btn siimple-btn--green"> Sim </button>
+			<button id="btnNao" class="siimple-btn siimple-btn--red"> Não </button>
+			<button id="btnAvanca" class="siimple-btn siimple-btn--blue"> Avança </button>
+
+		</nav>
+
+
+
+		<div class="divP siimple-card siimple-grid-col--5 ">
+			<div class="siimple-card-body " style="height:490px; background-color: #2a343c;">
+				<div id="testTitle" class="siimple-card-title"
+					style="font-size: x-large; color: aliceblue; margin-bottom: 20px;">Inova Sistemas Eletrônicos </div>
+				<div id="testMsg" class="siimple-card-subtitle"
+					style="font-size: x-large; color: aliceblue; letter-spacing: 3px; "></div>
+			</div>
+		</div>
+
+		<div class="divAux siimple-card siimple-grid-col--5" style="right: 3%;">
+
+			<div class="siimple-card-body"
+				style="max-height: 490px;max-width: 490px;right: 2%; background-color: #2a343c;">
+				<video id="video" width="100%" height="100%" style="display: none; border: 1px solid gray "></video>
+				<img id="imgTest" class="imgTest" src="Imagens/padrao.png" style>
+			</div>
+
+	</main>
+
+</body>
+
+</html>

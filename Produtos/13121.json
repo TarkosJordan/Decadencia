@@ -1,0 +1,128 @@
+{
+    "SerialNumber": "1000004728165",
+    "ProductCode": "13121",
+    "ProductName": "INV-30401",
+    "Rastreamento": "true",
+    "BS": "Base BS-49",
+    "CNV": "Chicote CNV-96",
+    "TRAFO": "TRAF-02",
+    "EtapasDeTeste": {
+        "1": "TestConfig",
+        "2": "SetupInicial",
+        "3": "StartRastreamento",
+        "4": "Start",
+        "5": "Calibracao",
+        "6": "Desenergizacao",
+        "7": "Limiar110",
+        "8": "Desenergizacao",
+        "9": "Limiar220",
+        "10": "Desenergizacao",
+        "11": "Energizacao110",
+        "12": "SaidaTriac110_init",
+        "13": "SaidaTriac110_min",
+        "14": "SaidaTriac110_medio",
+        "15": "SaidaTriac110_max",
+        "16": "SaidaTriac110_stop",
+        "17": "SaidaTriacValidation_110V",
+        "18": "Desenergizacao",
+        "19": "Energizacao220",
+        "20": "SaidaTriac220_init",
+        "21": "SaidaTriac220_min",
+        "22": "SaidaTriac220_medio",
+        "23": "SaidaTriac220_max",
+        "24": "SaidaTriac220_stop",
+        "25": "SaidaTriacValidation_220V",
+        "26": "Desenergizacao",
+        "27": "TransferenciaDeFalhas",
+        "28": "EndRastreamento",
+        "29": "FinalizaTeste"
+    },
+    "Relatorio": {
+        "Geral": {
+            "LEDVerde": null,
+            "LEDAmarelo": null,
+            "Calibracao": null,
+            "Limiar110": null,
+            "Limiar220": null,
+            "Saida110": null,
+            "Saida220": null
+        },
+        "Saida110": {
+            "Init": null,
+            "Stop": null,
+            "Min": null,
+            "Medio": null,
+            "Max": null
+        },
+        "Saida220": {
+            "Init": null,
+            "Stop": null,
+            "Min": null,
+            "Medio": null,
+            "Max": null
+        }
+    },
+    "Validations": {
+        "Saida110": {
+            "Stop": {
+                "Target": 0.2,
+                "Tolerance": 0.2
+            },
+            "Min": {
+                "Target": 3.6,
+                "Tolerance": 0.5
+            },
+            "Medio": {
+                "Target": 5.5,
+                "Tolerance": 0.5
+            },
+            "Max": {
+                "Target": 7.2,
+                "Tolerance": 0.5
+            }
+        },
+        "Saida220": {
+            "Stop": {
+                "Target": 0.3,
+                "Tolerance": 0.2
+            },
+            "Min": {
+                "Target": 4.45,
+                "Tolerance": 0.5
+            },
+            "Medio": {
+                "Target": 5.95,
+                "Tolerance": 0.5
+            },
+            "Max": {
+                "Target": 7.60,
+                "Tolerance": 0.5
+            }
+        }
+    },
+    "Imagens": {
+        "Base": "Imagens/BS-49.png",
+        "Padrao": "Imagens/padrao.png",
+        "Atencao": "Imagens/atencao.gif",
+        "LEDVerde": "Imagens/led-verde.png",
+        "LEDAmarelo": "Imagens/led-amarelo.png",
+        "LEDVerdeAmarelo": "Imagens/led-verde-amarelo.gif",
+        "Agulhas": "Imagens/agulhas-longas.jpg"
+    },
+    "Setup": {
+        "Vazio": "",
+        "Start": "RL7,RL5",
+        "Stop": "RL7",
+        "Calibracao": "RL9,Aux",
+        "EnergizaCalibracao": "RL9,RL4,Aux",
+        "AlimentacaoLimiar110": "RL7,RL2,Aux",
+        "AlimentacaoLimiar220": "RL7,RL6,Aux",
+        "Alimentacao110": "110",
+        "Alimentacao220": "220",
+        "Potenciometro": {
+            "Min": 65000,
+            "Medio": 35000,
+            "Max": 0
+        }
+    }
+}

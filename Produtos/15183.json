@@ -1,0 +1,143 @@
+{
+    "SerialNumber": "1000004713023",
+    "ProductCode": "15183",
+    "ProductName": "INV-30404",
+    "Rastreamento": "true",
+    "BS": "Base BS-49",
+    "CNV": "Chicote CNV-96",
+    "TRAFO": "TRAF-02",
+    "EtapasDeTeste": [
+        "TestConfig",
+        "SetupInicial",
+        "StartRastreamento",
+        "SetTemperaturaFria",
+        "Start",
+        "Calibracao",
+        "Desenergizacao",
+        "Limiar110",
+        "Desenergizacao",
+        "Limiar220",
+        "Desenergizacao",
+        "Energizacao110",
+        "Deteccao110",
+        "SetSobreTemperatura",
+        "SaidaTriac110_init",
+        "SaidaTriac110_min",
+        "SaidaTriac110_medio",
+        "SaidaTriac110_max",
+        "SobreTemperatura",
+        "SetTemperaturaFria",
+        "RearmeSobreTemperatura",
+        "SaidaTriacValidation_110V",
+        "Desenergizacao",
+        "Energizacao220",
+        "Deteccao220",
+        "SaidaTriac220_init",
+        "SaidaTriac220_min",
+        "SaidaTriac220_medio",
+        "SaidaTriac220_max",
+        "SaidaTriac220_stop",
+        "SaidaTriacValidation_220V",
+        "Desenergizacao",
+        "TransferenciaDeFalhas",
+        "EndRastreamento",
+        "FinalizaTeste"
+    ],
+    "Relatorio": {
+        "Geral": {
+            "LEDVerde": null,
+            "LEDAmarelo": null,
+            "Deteccao110": null,
+            "Deteccao220": null,
+            "Saida110": null,
+            "Saida220": null
+        },
+        "Saida110": {
+            "Init": null,
+            "Min": null,
+            "Medio": null,
+            "Max": null,
+            "SobreTemperatura": null,
+            "RearmeSobreTemperatura": null
+        },
+        "Saida220": {
+            "Init": null,
+            "Stop": null,
+            "Min": null,
+            "Medio": null,
+            "Max": null
+        }
+    },
+    "Validations": {
+        "Saida110": {
+            "SobreTemperatura": {
+                "Target": 0.2,
+                "Tolerance": 0.2
+            },
+            "RearmeSobreTemperatura": {
+                "Target": 4.25,
+                "Tolerance": 1.5
+            },
+            "Min": {
+                "Target": 4.25,
+                "Tolerance": 0.6
+            },
+            "Medio": {
+                "Target": 5.9,
+                "Tolerance": 0.8
+            },
+            "Max": {
+                "Target": 7.35,
+                "Tolerance": 1
+            }
+        },
+        "Saida220": {
+            "Stop": {
+                "Target": 0.3,
+                "Tolerance": 0.2
+            },
+            "Min": {
+                "Target": 3.6,
+                "Tolerance": 0.8
+            },
+            "Medio": {
+                "Target": 5.1,
+                "Tolerance": 1
+            },
+            "Max": {
+                "Target": 6.5,
+                "Tolerance": 1.2
+            }
+        }
+    },
+    "Imagens": {
+        "Base": "Imagens/BS-49.png",
+        "Padrao": "Imagens/padrao.png",
+        "Atencao": "Imagens/atencao.gif",
+        "LEDVerde": "Imagens/led-verde.png",
+        "LEDAmarelo": "Imagens/led-amarelo.png",
+        "LEDVerdeAmarelo": "Imagens/led-verde-amarelo.gif",
+        "LEDSobreTemperatura": "Imagens/led-verde-amarelo-alternando.gif",
+        "Agulhas": "Imagens/agulhas-curtas.jpg"
+    },
+    "Setup": {
+        "Vazio": "",
+        "Start": "RL7,RL5",
+        "Stop": "RL7",
+        "Calibracao": "RL9,Aux",
+        "EnergizaCalibracao": "RL9,RL4,Aux",
+        "AlimentacaoLimiar110": "RL7,RL2,Aux",
+        "AlimentacaoLimiar220": "RL7,RL6,Aux",
+        "Alimentacao110": "110",
+        "Alimentacao220": "220",
+        "Potenciometro": {
+            "Min": 65000,
+            "Medio": 35000,
+            "Max": 0
+        },
+        "NTC": {
+            "SobreTemperatura": 20,
+            "TemperaturaFria": 60
+        }
+    }
+}
