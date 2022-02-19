@@ -52,26 +52,33 @@ class UI {
             location.reload()
         })
     }
+    
     /**
      * 
      * @param {String} imagem imagem
      * @param {String} msg mensagem de aviso
      * @param {Function} callback  chamada que será executada depois
      */
-    modalInfo(imagem, msg, callback) {
+     modalInfo(imagem, msg, callback, warning = false){
         document.getElementById("txtModal").disabled = true
         document.getElementById("modalImg").src = imagem
         document.getElementById("txtModal").value = msg
         document.getElementById("txtModal").style.minHeight = "200px"
         document.getElementById("modal").style.display = ""
-
-        var btnModal = document.getElementById("btnOkModal")
-        var evt = function () {
-            btnModal.removeEventListener('click', evt)
-            document.getElementById("modal").style.display = "none"
-            callback()
+        
+        if (warning) {
+            document.getElementById("txtModal").style.fontSize = "24px"
+            document.getElementById("txtModal").style.color = "red"
+            document.getElementById("txtModal").style.textAlign = "center"
         }
-        btnModal.addEventListener('click', evt)
+        
+        var btnModal = document.getElementById("btnOkModal")
+        var evt =  function () {
+            btnModal.removeEventListener('click', evt)
+            document.getElementById("modal").style.display = "none"          
+            callback()  
+        }
+        btnModal.addEventListener('click', evt )  
     }
 
 
@@ -88,7 +95,7 @@ class UI {
                     btnSim.style.visibility = "hidden"
                     btnNao.style.visibility = "hidden"
 
-                    if (value) {
+                    if (opc == "yes" || opc == "ArrowUp" || opc == "KeyS") {
                         callback(true)
                     } else {
                         callback(false)
@@ -121,7 +128,7 @@ class UI {
      * @param {Function} callback  recebe uma função
      * @param {Number} timeout  tempo que a função aguarda
      */
-    observerAvanca(callback, timeout = 90000) {
+    observerAvanca(callback, timeout = 300000) {
         setTimeout(() => {
             btnAvanca.style.visibility = "visible"
             var resp = false

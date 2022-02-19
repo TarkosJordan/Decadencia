@@ -2,142 +2,172 @@
     "SerialNumber": "1000004713023",
     "ProductCode": "15183",
     "ProductName": "INV-30404",
-    "Rastreamento": "true",
-    "BS": "Base BS-49",
-    "CNV": "Chicote CNV-96",
-    "TRAFO": "TRAF-02",
+    "Rastreamento": "false",
+    "ComponentesDeTeste": [
+        "Base BS-76",
+        "Chicote CNV-96",
+        "Cabo Extensor USB",
+        "Cabo Mini USB",
+        "Isolador USB"
+    ],
+    "Dissipador": "true",
+    "Microcontrolador": "STM8S003F3",
+    "Gravacao": "false",
     "EtapasDeTeste": [
         "TestConfig",
-        "SetupInicial",
         "StartRastreamento",
-        "SetTemperaturaFria",
+        "SetupInicial",
+        "SetupPotenciometro1",
+        "ConfiguraValidacoes",
         "Start",
-        "Calibracao",
+        "SetupGravacao",
+        "GravaFirmwareTeste",
+        "SetupVazio",
+        "SetPotenciometroMin",
         "Desenergizacao",
-        "Limiar110",
+        "Energizacao160",
+        "EstabeleceComunicacaoTransceiver",
+        "Teste_E1_SempreAcionada",
+        "INV30404_160V_Pot_Min_E1_NTC_Baixa",
+        "Validations",
         "Desenergizacao",
-        "Limiar220",
+        "SetPotenciometroMaximo",
         "Desenergizacao",
-        "Energizacao110",
-        "Deteccao110",
-        "SetSobreTemperatura",
-        "SaidaTriac110_init",
-        "SaidaTriac110_min",
-        "SaidaTriac110_medio",
-        "SaidaTriac110_max",
-        "SobreTemperatura",
-        "SetTemperaturaFria",
-        "RearmeSobreTemperatura",
-        "SaidaTriacValidation_110V",
+        "Energizacao190",
+        "EstabeleceComunicacaoTransceiver",
+        "INV30404_190V_Pot_Max_E2_NTC_Alta",
+        "Validations",
+        "SetPotenciometroMedio",
+        "INV30404_Pot_Medio",
+        "Validations",
         "Desenergizacao",
         "Energizacao220",
-        "Deteccao220",
-        "SaidaTriac220_init",
+        "SetupVazio",
+        "EnableTriacControlWithDigitalInputs",
         "SaidaTriac220_min",
-        "SaidaTriac220_medio",
         "SaidaTriac220_max",
-        "SaidaTriac220_stop",
-        "SaidaTriacValidation_220V",
+        "DisableOutTriac",
         "Desenergizacao",
-        "TransferenciaDeFalhas",
+        "FinalValidations",
+        "SetupGravacao",
+        "GravaFirmwareFinal",
         "EndRastreamento",
         "FinalizaTeste"
     ],
-    "Relatorio": {
-        "Geral": {
-            "LEDVerde": null,
-            "LEDAmarelo": null,
-            "Deteccao110": null,
-            "Deteccao220": null,
-            "Saida110": null,
-            "Saida220": null
+    "MapaValidacoes":[
+        "Leitura160V",
+        "Leitura190V",
+        "NTC_Baixa",
+        "NTC_Alta",
+        "Potenciometro_Min",
+        "Potenciometro_Medio",
+        "Potenciometro_Max",
+        "E1",
+        "E2",
+        "LED_Verde",
+        "LED_Amarelo",
+        "SaidaTriac220_min",
+        "SaidaTriac220_max"
+    ],
+    "TensoesEntrada": {
+        "Entrada160V": {
+            "Target": 165,
+            "Tolerancia": 18
         },
-        "Saida110": {
-            "Init": null,
-            "Min": null,
-            "Medio": null,
-            "Max": null,
-            "SobreTemperatura": null,
-            "RearmeSobreTemperatura": null
-        },
-        "Saida220": {
-            "Init": null,
-            "Stop": null,
-            "Min": null,
-            "Medio": null,
-            "Max": null
+        "Entrada190V": {
+            "Target": 195,
+            "Tolerancia": 20
         }
     },
-    "Validations": {
+    "Temperatura": {
+        "NTC": {
+            "Baixa": {
+                "Setup": "RL11",
+                "Target": 25,
+                "Tolerancia": 200
+            },
+            "Alta": {
+                "Setup": "",
+                "Target": 43,
+                "Tolerancia": 200
+            }
+        }
+    },
+    "Potenciometro": {
+        "Min": {
+            "Target": 21,
+            "Tolerancia": 10
+        },
+        "Medio": {
+            "Target": 500,
+            "Tolerancia": 450
+        },
+        "Max": {
+            "Target": 1000,
+            "Tolerancia": 23
+        }
+    },
+    "EntradasDigitais": {
+        "E1": "RL5",
+        "E2": "RL7"
+    },
+    "Triac": {
+        "Triggers": {
+            "HighAngle": "",
+            "MediumAngle": "RL5",
+            "LowAngle": "RL7",
+            "Disable": ""
+        },
         "Saida110": {
-            "SobreTemperatura": {
-                "Target": 0.2,
-                "Tolerance": 0.2
-            },
-            "RearmeSobreTemperatura": {
-                "Target": 4.25,
-                "Tolerance": 1.5
-            },
             "Min": {
-                "Target": 4.25,
+                "Target": 1.1,
                 "Tolerance": 0.6
             },
             "Medio": {
-                "Target": 5.9,
-                "Tolerance": 0.8
+                "Target": 3.3,
+                "Tolerance": 0.6
             },
             "Max": {
-                "Target": 7.35,
-                "Tolerance": 1
+                "Target": 4.7,
+                "Tolerance": 0.6
             }
         },
         "Saida220": {
-            "Stop": {
-                "Target": 0.3,
-                "Tolerance": 0.2
-            },
             "Min": {
-                "Target": 3.6,
-                "Tolerance": 0.8
+                "Target": 2.0,
+                "Tolerance": 0.6
             },
             "Medio": {
-                "Target": 5.1,
-                "Tolerance": 1
+                "Target": 6.3,
+                "Tolerance": 0.6
             },
             "Max": {
-                "Target": 6.5,
-                "Tolerance": 1.2
+                "Target": 9.0,
+                "Tolerance": 0.6
             }
         }
     },
     "Imagens": {
-        "Base": "Imagens/BS-49.png",
+        "Base": "Imagens/BS-76.png",
         "Padrao": "Imagens/padrao.png",
+        "CabosUSB":"Imagens/setupCabosUSB.gif",
+        "SetupDissipador":"Imagens/setupInsereSuporte.gif",
+        "IsoladorUSB": "Imagens/isoladorUSB.gif",
         "Atencao": "Imagens/atencao.gif",
         "LEDVerde": "Imagens/led-verde.png",
         "LEDAmarelo": "Imagens/led-amarelo.png",
-        "LEDVerdeAmarelo": "Imagens/led-verde-amarelo.gif",
-        "LEDSobreTemperatura": "Imagens/led-verde-amarelo-alternando.gif",
-        "Agulhas": "Imagens/agulhas-curtas.jpg"
+        "SetupPotenciometro1": "Imagens/Pot_Instrucao1.gif",
+        "SetupPeca": "Imagens/setupPeca1.gif",
+        "PotenciometroMin": "Imagens/PotHorario.png",
+        "PotenciometroMedio": "Imagens/PotMeio.png",
+        "PotenciometroMax": "Imagens/PotAntihorario.png"
     },
     "Setup": {
         "Vazio": "",
-        "Start": "RL7,RL5",
-        "Stop": "RL7",
-        "Calibracao": "RL9,Aux",
-        "EnergizaCalibracao": "RL9,RL4,Aux",
-        "AlimentacaoLimiar110": "RL7,RL2,Aux",
-        "AlimentacaoLimiar220": "RL7,RL6,Aux",
         "Alimentacao110": "110",
         "Alimentacao220": "220",
-        "Potenciometro": {
-            "Min": 65000,
-            "Medio": 35000,
-            "Max": 0
-        },
-        "NTC": {
-            "SobreTemperatura": 20,
-            "TemperaturaFria": 60
-        }
+        "Alimentacao160": "Aux,RL4",
+        "Alimentacao190": "Aux,RL6",
+        "Gravacao": "RL1"
     }
 }

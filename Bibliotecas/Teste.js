@@ -11,7 +11,7 @@
     buscaEtapaFinalizacao(etapaFinalizacao) {
         try {
             let indiceFinalizacao = null;
-            this.Context.EtapasDeTeste.forEach((etapa, indice) => {
+            this.Context.ConfigTest.EtapasDeTeste.forEach((etapa, indice) => {
                 if (etapa == etapaFinalizacao) {
                     indiceFinalizacao = indice;
                 }
@@ -57,15 +57,15 @@
      * @param {number} timeOutEstabilizacao valor em ms.
      * @param {function} callback 
      */
-    SaidaTriacHandler(potenciometro, timeOutEstabilizacao, callback) {
-        this.setSaidaAnalogica(potenciometro);
+    SaidaTriacHandler(EntradasDigitais, timeOutEstabilizacao, callback) {
+        //this.setupReles(EntradasDigitais)
 
         setTimeout(() => {
 
             this.ReadSaidaTriac()
                 .then((resolve) => {
 
-                    callback(MediaAritimetica(resolve));
+                    callback(MediaHarmonica(resolve));
 
                 });
 
@@ -80,6 +80,16 @@
             let media = soma / amostras.length;
             return media;
         }
+
+        function MediaHarmonica(amostras) {
+            let soma = 0
+            amostras.forEach(amostra => {
+                soma += 1/amostra;
+            })
+
+            let mediaHarmonica = amostras.length/soma
+            return mediaHarmonica
+        }
     }
 
     /**
@@ -91,17 +101,17 @@
 
             let amostras = [];
 
-            pvi.daq.in.voltageOrCurrent2.value.onChange = (value) => {
+            pvi.daq.in.voltageOrCurrent1.value.onChange = (value) => {
                 amostras.push(value);
             };
 
             setTimeout(() => {
 
-                pvi.daq.in.voltageOrCurrent2.value.onChange = () => { };
+                pvi.daq.in.voltageOrCurrent1.value.onChange = () => { };
 
                 if (amostras.length == 0) {
 
-                    amostras.push(pvi.daq.in.voltageOrCurrent2.value.value);
+                    amostras.push(pvi.daq.in.voltageOrCurrent1.value.value);
                     resolve(amostras);
 
                 } else if (amostras.length >= 0) {
@@ -110,7 +120,7 @@
 
                 }
 
-            }, 2000);
+            }, 1000);
 
         });
 
@@ -315,31 +325,97 @@
         let reles = configuracao.split(",")
         let relesParaAcionar = new Array()
         let relesParaDesacionar = new Array()
+        let flagAlimAux = false
         relesParaAcionar = []
         relesParaDesacionar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if(reles != ""){
             // Laco que preenche vetor de acionamento e remove os devidos elementos do vetor de desacionamento dos reles
             for(var indice = 0; indice < reles.length; indice++){
-                relesParaAcionar.push(Number(reles[indice].substring(reles[indice].indexOf("RL") + "RL".length)))   // Separa o "RL" de cada elemento e popula vetor de acionamento com o numero do rele que sera acionado
-                relesParaDesacionar.splice(relesParaDesacionar.indexOf(relesParaAcionar[indice]), 1)                // Busca o elemento (numero do rele) que deve ser acionado e remove do vetor de desacionamento
+                if(reles[indice] == "Aux"){
+                    flagAlimAux = true
+                } else{
+                    relesParaAcionar.push(Number(reles[indice].substring(reles[indice].indexOf("RL") + "RL".length)))   // Separa o "RL" de cada elemento e popula vetor de acionamento com o numero do rele que sera acionado
+                    relesParaDesacionar.splice(relesParaDesacionar.indexOf(relesParaAcionar[indice]), 1)                // Busca o elemento (numero do rele) que deve ser acionado e remove do vetor de desacionamento
+                }
             }
         }
         // Sistema de timeouts garante que os desacionamentos dos reles serao executados antes dos acionamentos
         setTimeout(()=>{
             var selecionaRele
+            if(!flagAlimAux){
+                pvi.daq.desligaAux220()
+            }
             for(var quantidadeReles = 0; quantidadeReles < relesParaDesacionar.length; quantidadeReles++){
                 selecionaRele = relesParaDesacionar[quantidadeReles]
                 pvi.daq.desligaRele(selecionaRele)
             }
-        }, 300)
+            setTimeout(()=>{
+                if(flagAlimAux){
+                    pvi.daq.ligaAux220()
+                } else{
+                    pvi.daq.desligaAux220()
+                }
+                var selecionaRele
+                for(var quantidadeReles = 0; quantidadeReles < relesParaAcionar.length; quantidadeReles++){
+                    selecionaRele = relesParaAcionar[quantidadeReles]
+                    pvi.daq.ligaRele(selecionaRele)
+                }
+                setTimeout(()=>{
+                    callback()
+                },100)
+            },200)
+        },200)
+    }
+
+    setupRelesDesligamentoControlado(relesParaLigar = "", relesParaDesligar = "", callback = ()=>{}) {
+
+        let relesLigar = relesParaLigar.split(",")
+        let relesDesligar = relesParaDesligar.split(",")
+        let relesParaAcionar = new Array()
+        let relesParaDesacionar = new Array()
+        let flagAlimAux = "terceiroEstado"
+        relesParaAcionar = []
+        relesParaDesacionar = []
+        // Laco que preenche vetor de acionamento e remove os devidos elementos do vetor de desacionamento dos reles
+        for(var indice = 0; indice < relesLigar.length; indice++){
+            if(relesLigar[indice] == "Aux"){
+                flagAlimAux = true
+            } else{
+                relesParaAcionar.push(Number(relesLigar[indice].substring(relesLigar[indice].indexOf("RL") + "RL".length)))   // Separa o "RL" de cada elemento e popula vetor de acionamento com o numero do rele que sera acionado
+            }
+        }
+        for(var indice = 0; indice < relesDesligar.length; indice++){
+            if(relesDesligar[indice] == "Aux"){
+                flagAlimAux = false
+            } else{
+                relesParaDesacionar.push(Number(relesDesligar[indice].substring(relesDesligar[indice].indexOf("RL") + "RL".length)))   // Separa o "RL" de cada elemento e popula vetor de desacionameto com o numero do rele que sera desacionameto
+            }
+        }
         setTimeout(()=>{
             var selecionaRele
-            for(var quantidadeReles = 0; quantidadeReles < relesParaAcionar.length; quantidadeReles++){
-                selecionaRele = relesParaAcionar[quantidadeReles]
-                pvi.daq.ligaRele(selecionaRele)
+            if(flagAlimAux == false){
+                pvi.daq.desligaAux220()
             }
-            callback()
-        }, 900)
+            for(var quantidadeReles = 0; quantidadeReles < relesParaDesacionar.length; quantidadeReles++){
+                selecionaRele = relesParaDesacionar[quantidadeReles]
+                pvi.daq.desligaRele(selecionaRele)
+            }
+            setTimeout(()=>{
+                if(flagAlimAux){
+                    pvi.daq.ligaAux220()
+                } else if(flagAlimAux == false){
+                    pvi.daq.desligaAux220()
+                }
+                var selecionaRele
+                for(var quantidadeReles = 0; quantidadeReles < relesParaAcionar.length; quantidadeReles++){
+                    selecionaRele = relesParaAcionar[quantidadeReles]
+                    pvi.daq.ligaRele(selecionaRele)
+                }
+                setTimeout(()=>{
+                    callback()
+                },100)
+            },200)
+        },200)
     }
 }
 

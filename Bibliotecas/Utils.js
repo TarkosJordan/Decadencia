@@ -110,6 +110,7 @@ class Utils {
                         sessionStorage.clear()
                         location.reload()
                         sessionStorage.setItem("ProductCode", ERPData.Information.ProductCode)
+                        sessionStorage.setItem("Firmware", ERPData.Information.Firmware)
                         sessionStorage.setItem("FirstExec", true)
                     } else {
                         sessionStorage.setItem("FirstExec", false)

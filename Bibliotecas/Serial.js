@@ -34,59 +34,256 @@ class Serial {
    getComPort() {
       return this.COMPORT
    }
-
-   getConnectedPortCom = (dataSend, regex, callback) => {
+   getConnectedPortCom_funcRequest = (funcRequest, regex, tentativasCom, callback) => {
       var portList = this.getPortList()
+      var tentativasCom = tentativasCom
+      var numeroTentativasRealizadas = 0
       var testandoPorta = true
-      const tempoResposta = 12000
+      const tempoResposta = 1000
       let indexPort = 0
 
-      let getPort = setInterval(() => {
-         if(testandoPorta){
-            testandoPorta = false
-            if (indexPort < portList.length) {
+      funcRequest()
+
+      setTimeout(()=>{
+         let getPort = setInterval(() => {
+            if(testandoPorta){
+               testandoPorta = false
+               if (indexPort < portList.length && portList[indexPort] != "") {
+                  var PORT = portList[indexPort]
    
-               var PORT = portList[indexPort]
+                  if(numeroTentativasRealizadas < tentativasCom){
+                     
+                     console.log(`Tentaviva ${numeroTentativasRealizadas+1} de se comunicar com a porta ${PORT}`)
+                     this.open(PORT, this.BAUD, this.PARIDADE)
+                     
+                     if(this.isOpen(PORT) == 1){
+                        console.log("PORTA ABERTA", PORT)
+
+                        this.ReadData(PORT) //Limpa buffer inicial da porta
+            
+                        setTimeout(() => {
+                           var byteData = this.ReadData(PORT)
+         
+                           if (byteData.match(regex)) {
+                              console.log(`${PORT} Match: ${byteData}`)
+                              clearInterval(getPort)
+                              this.setPortCom(PORT)
+                              this.close(PORT)
+                              callback(true, PORT)
+                           } else {
+                              console.log(`${PORT} Unmatch: ${byteData}`)
+                              this.close(PORT)
+                              numeroTentativasRealizadas++
+                              testandoPorta = true
+                           }
+                        }, tempoResposta);
+            
+                     } else{
+                        console.log("Porta COM não foi aberta corretamente PORTA:", PORT)
+                        numeroTentativasRealizadas++
+                        this.close(PORT)
+                        testandoPorta = true
+                     }
+                  } else {
+                     console.log("Numero de tentativas esgotadas para PORTA:", PORT)
+                     this.close(PORT)
+                     indexPort++
+                     testandoPorta = true
+                  }
+               } else{
+                  console.log(`Não encontrou nenhuma porta COM disponivel`)
+                  clearInterval(getPort)
+                  callback(false, "null")
+               }
+            }
+         }, 100)
+      }, 500)
+   }
+
+   getConnectedPortCom = (dataSend, regex, tentativasCom,  callback) => {
+      var portList = this.getPortList()
+      var tentativasCom = tentativasCom
+      var numeroTentativasRealizadas = 0
+      var testandoPorta = true
+      const tempoResposta = 1500
+      let indexPort = 0
+
+      setTimeout(()=>{
+         let getPort = setInterval(() => {
+            if(testandoPorta){
+               testandoPorta = false
+               if (indexPort < portList.length && portList[indexPort] != "") {
+                  var PORT = portList[indexPort]
    
-               this.open(PORT, this.BAUD, this.PARIDADE)
-               
-               if(this.isOpen(PORT) == 1){
-                  console.log("PORTA ABERTA", PORT)
-                  if (this.SendData(dataSend, PORT) == 1) {
+                  if(numeroTentativasRealizadas < tentativasCom){
+                     
+                     console.log(`Tentaviva ${numeroTentativasRealizadas+1} de se comunicar com a porta ${PORT}`)
+                     this.open(PORT, this.BAUD, this.PARIDADE)
+                     
+                     if(this.isOpen(PORT) == 1){
+                        console.log("PORTA ABERTA", PORT)
+                        if (this.SendData(dataSend, PORT) == 1) {
+            
+                           setTimeout(() => {
+                              var byteData = this.ReadData(PORT)
+            
+                              if (byteData.match(regex)) {
+                                 console.log(`${PORT} Match: ${byteData}`)
+                                 clearInterval(getPort)
+                                 this.setPortCom(PORT)
+                                 this.close(PORT)
+                                 callback(true, PORT)
+                              } else {
+                                 console.log(`${PORT} Unmatch: ${byteData}`)
+                                 this.close(PORT)
+                                 numeroTentativasRealizadas++
+                                 testandoPorta = true
+                              }
+                           }, tempoResposta);
+            
+                        } else {
+                           console.log(`${PORT} Não Enviou`)
+                           this.close(PORT)
+                           numeroTentativasRealizadas++
+                           testandoPorta = true
+                        }
+                     } else{
+                        console.log("Porta COM não foi aberta corretamente PORTA:", PORT)
+                        numeroTentativasRealizadas++
+                        this.close(PORT)
+                        testandoPorta = true
+                     }
+                  } else {
+                     console.log("Numero de tentativas esgotadas para PORTA:", PORT)
+                     this.close(PORT)
+                     indexPort++
+                     testandoPorta = true
+                  }
+               } else{
+                  console.log(`Não encontrou nenhuma porta COM disponivel`)
+                  clearInterval(getPort)
+                  callback(false, "null")
+               }
+            }
+         }, 100)
+      }, 500)
+   }
+
+   estabeleceComunicacaoCOM_funcRequest = (portaCom, funcRequest, regex, tentativasCom, callback) => {
+
+      var tentativasCom = tentativasCom
+      var numeroTentativasRealizadas = 0
+      var testandoPorta = true
+      const tempoResposta = 1000
       
+      funcRequest()
+
+      setTimeout(()=>{
+         let getPort = setInterval(() => {
+            if(testandoPorta){
+               testandoPorta = false
+               if(numeroTentativasRealizadas < tentativasCom){
+                  
+                  console.log(`Tentaviva ${numeroTentativasRealizadas+1} de se comunicar com a porta ${portaCom}`)
+                  this.open(portaCom, this.BAUD, this.PARIDADE)
+                  
+                  if(this.isOpen(portaCom) == 1){
+                     console.log("PORTA ABERTA", portaCom)
+
+                     this.ReadData(portaCom) //Limpa buffer inicial da porta
+         
                      setTimeout(() => {
-                        var byteData = this.ReadData(PORT)
+                        var byteData = this.ReadData(portaCom)
       
                         if (byteData.match(regex)) {
-                           console.log(`${PORT} Match: ${byteData}`)
-                           this.setPortCom(PORT)
+                           console.log(`${portaCom} Match: ${byteData}`)
                            clearInterval(getPort)
-                           this.close(PORT)
-                           callback(true, PORT)
+                           this.setPortCom(portaCom)
+                           this.close(portaCom)
+                           callback(true, portaCom)
                         } else {
-                           console.log(`${PORT} Unmatch: ${byteData}`)
-                           this.close(PORT)
-                           indexPort++
+                           console.log(`${portaCom} Unmatch: ${byteData}`)
+                           this.close(portaCom)
+                           numeroTentativasRealizadas++
                            testandoPorta = true
                         }
                      }, tempoResposta);
-      
-                  } else {
-                     console.log(`${PORT} Não Enviou`)
-                     this.close(PORT)
-                     indexPort++
+   
+                  } else{
+                     console.log("Porta COM não foi aberta corretamente PORTA:", portaCom)
+                     numeroTentativasRealizadas++
+                     this.close(portaCom)
+                     testandoPorta = true
                   }
-               } else{
-                  console.log("Porta COM não foi aberta corretamente PORTA:", PORT)
-               }
-            } else {
-               console.log(`$Não encontrou nenhuma porta COM disponivel`)
-               clearInterval(getPort)
-               callback(false, "null")
+               } else {
+                  console.log("Numero de tentativas esgotadas para PORTA:", portaCom)
+                  this.close(portaCom)
+                  clearInterval(getPort)
+                  callback(false, null)
+               } 
             }
-         }
-      }, 500);
+         }, 100)
+      },500)
+   }
 
+   estabeleceComunicacaoCOM = (portaCom, dataSend, regex, tentativasCom, callback) => {
+
+      var tentativasCom = tentativasCom
+      var numeroTentativasRealizadas = 0
+      var testandoPorta = true
+      const tempoResposta = 1400
+
+      setTimeout(()=>{
+         let getPort = setInterval(() => {
+            if(testandoPorta){
+               testandoPorta = false
+               if(numeroTentativasRealizadas < tentativasCom){
+                  
+                  console.log(`Tentaviva ${numeroTentativasRealizadas+1} de se comunicar com a porta ${portaCom}`)
+                  this.open(portaCom, this.BAUD, this.PARIDADE)
+                  
+                  if(this.isOpen(portaCom) == 1){
+                     console.log("PORTA ABERTA", portaCom)
+                     if (this.SendData(dataSend, portaCom) == 1) {
+         
+                        setTimeout(() => {
+                           var byteData = this.ReadData(portaCom)
+         
+                           if (byteData.match(regex)) {
+                              console.log(`${portaCom} Match: ${byteData}`)
+                              clearInterval(getPort)
+                              this.setPortCom(portaCom)
+                              this.close(portaCom)
+                              callback(true, portaCom)
+                           } else {
+                              console.log(`${portaCom} Unmatch: ${byteData}`)
+                              this.close(portaCom)
+                              numeroTentativasRealizadas++
+                              testandoPorta = true
+                           }
+                        }, tempoResposta);
+   
+                     } else {
+                        console.log(`${portaCom} Não Enviou`)
+                        this.close(portaCom)
+                        numeroTentativasRealizadas++
+                        testandoPorta = true
+                     }
+                  } else{
+                     console.log("Porta COM não foi aberta corretamente PORTA:", portaCom)
+                     numeroTentativasRealizadas++
+                     this.close(portaCom)
+                     testandoPorta = true
+                  }
+               } else {
+                  console.log("Numero de tentativas esgotadas para PORTA:", portaCom)
+                  this.close(portaCom)
+                  clearInterval(getPort)
+                  callback(false, null)
+               } 
+            }
+         }, 100)
+      },500)
    }
 
    ReadData(port = this.COMPORT, log = true) {
@@ -209,6 +406,45 @@ class Serial {
          }
       }, timeOut);
    }
+   requisicaoResposta_funcRequest(funcRequest, regexResposta, tempoResposta, numeroTentativas, callback){ 
+      var resposta = null, flagStatusComando = false, tentativas = 0
+      var executandoComunicacao = false
+      var controlaComunicacao = setInterval(()=>{
+         if(!executandoComunicacao){
+            console.log("Tentativa Requisição e Resposta", tentativas+1)
+            executandoComunicacao = true
+            
+            this.ReadData()   //Limpa buffer serial do PVI
+            funcRequest()
+
+            setTimeout(()=>{
+               resposta = this.ReadData()
+               if(resposta != null){
+                  resposta = resposta.match(regexResposta)
+                  if(resposta != null){
+                     resposta = resposta.input.split(" ")
+                     flagStatusComando = true
+                  } else{
+                     tentativas++
+                     console.log("O regex não conseguiu ser aplicado a resposta do controlador")
+                     executandoComunicacao = false
+                  }
+               } else{
+                  tentativas++
+                  console.error("Leitura na serial falhou")
+                  executandoComunicacao = false
+               }
+               // Condicao de saida do metodo seja por quantidade de tentativas atinjidas ou por resposta coerente
+               if(tentativas >= numeroTentativas || flagStatusComando){
+                  clearInterval(controlaComunicacao)
+                  this.ReadData()   //Limpa buffer na saida
+                  callback(flagStatusComando, resposta)
+                  return resposta
+               } 
+            }, tempoResposta)
+         } 
+      }, 500)
+   }
 
    requisicaoResposta(requisicao, regexResposta, tempoResposta, numeroTentativas, callback){ 
       var resposta = null, flagStatusComando = false, tentativas = 0
@@ -252,7 +488,6 @@ class Serial {
             }
          } 
       }, 500)
-      
    }
 
    //#region STATIC FUNCTIONS

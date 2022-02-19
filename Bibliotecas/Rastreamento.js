@@ -56,7 +56,7 @@ class RelatorioTeste {
      * @param {boolean} resultado True ou False
      *
      * Exemplo:
-     * AddTesteFuncional("Impossível comunicar", "COM", -1, true)
+     * AddTesteFuncional("Impossível comunicar", "COM", -1, false)
      */
     AddTesteFuncional(descricao, nome, cod, resultado) {
         this.TesteFuncional.push({

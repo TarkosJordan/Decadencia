@@ -74,6 +74,18 @@ dJG_ADD|dWRITE|0x00|0x00|(N)ACK|CRC
 
 0x0A 0x03 0x05 0x00 0x00 0x00 -> Resposta do controlador vem com o valor de tensão em Volts
 
-### Setar saida motor através da comunicação (configura o angulo de disparo do Triac)
+### Habilita controle da saida triac do controlador através das entradas digitais (Desabilita comunicação)
 
-0x0A 0x06 0x06 0x00 0xANGLE 0x98   -> Angulo configuravel 0 a 180° sendo que quanto menor o angulo maior a tensão de saida
+0x0A 0x06 0x0C 0x01 0x01 0x98
+
+A partir deste ponto o controlador vai ler as entradas digitais E1 e E2 e então setar angulos de disparo para saida triac com base no acionamento destas entradas
+
+| E2  | E1  | Descrição                                                       |
+| --- | --- | --------------------------------------------------------------- |
+| 0   | 0   | Angulo  de disparo Alto                                         |
+| 0   | 1   | Angulo de disparo Médio                                         |
+| 1   | 0   | Angulo de disparo Baixo                                         |
+| 1   | 1   | Desabilita controle de Triac por entradas (Retorna comunicação) |
+
+
+
